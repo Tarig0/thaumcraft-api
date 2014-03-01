@@ -272,14 +272,14 @@ public class ResearchItem
 			}
 			ResearchCategoryList lostList = ResearchCategories.getResearchList("LostNFound");
 			
-			int displayCol =lostList.minDisplayColumn + MathHelper.floor_double(lostCount / lostList.maxDisplayColumn);
-			int displayRow =lostList.minDisplayRow + (lostCount % lostList.maxDisplayColumn);
-			
+			int displayCol =lostList.minDisplayColumn + MathHelper.floor_double(lostCount / 10);
+			int displayRow =lostList.minDisplayRow + (lostCount % 10);
+			lostCount++;
 			ResearchItem LostResearchItem;
 			if(this.icon_item != null){
-				LostResearchItem = new ResearchItem(this.key, this.category, this.tags, displayCol , displayRow , this.complexity, this.icon_item );
+				LostResearchItem = new ResearchItem(this.key, "LostNFound", this.tags, displayCol, displayRow, this.complexity, this.icon_item).registerResearchItem();
 			}else{
-				LostResearchItem = new ResearchItem(this.key, this.category, this.tags, displayCol , displayRow + (lostCount % 10), this.complexity, this.icon_resource );
+				LostResearchItem = new ResearchItem(this.key, "LostNFound", this.tags, displayCol, displayRow, this.complexity, this.icon_resource).registerResearchItem();
 			}
 			return LostResearchItem;
 		}
