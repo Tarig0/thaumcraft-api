@@ -62,19 +62,19 @@ public class ResearchCategories {
 	public static void addResearch(ResearchItem ri) {
 		ResearchCategoryList rl = getResearchList(ri.category);
 		if (rl!=null && !rl.research.containsKey(ri.key)) {
-			
+
 			if (!ri.isVirtual()) {
 				for (ResearchItem rr:rl.research.values()) {
 					if (rr.displayColumn == ri.displayColumn && rr.displayRow == ri.displayRow) {
-						FMLLog.log(Level.SEVERE, "[Thaumcraft] Research ["+ri.getName()+"] not added as it overlaps with existing research ["+rr.getName()+"]");
-						return;
+						FMLLog.log(Level.SEVERE, "[Thaumcraft] Research ["+ri.getName()+"] added to Lost N' Found as it overlaps with existing research ["+rr.getName()+"]");
+						return false;
 					}
 				}
 			}
-			
-			
+
+
 			rl.research.put(ri.key, ri);
-			
+
 			if (ri.displayColumn < rl.minDisplayColumn) 
 	        {
 	            rl.minDisplayColumn = ri.displayColumn;
@@ -94,6 +94,8 @@ public class ResearchCategories {
 	        {
 	            rl.maxDisplayRow = ri.displayRow;
 	        }
+	        return true;
 	        		}
+		return true;
 	}
 }
