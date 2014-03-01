@@ -264,11 +264,27 @@ public class ResearchItem
 		return aspectTriggers;
 	}
 
-	public ResearchItem registerResearchItem()
-    {
-        ResearchCategories.addResearch(this);
-        return this;
-    }
+	public ResearchItem registerResearchItem() {
+		if(!ResearchCategories.addResearch(this)){
+			if(lostCount == 0){
+				ResourceLocation background = new ResourceLocation("thaumcraft", "textures/gui/gui_researchback.png");
+				ResearchCategories.registerCategory("LostNFound", background, background);
+			}
+			ResearchCategoryList lostList = ResearchCategories.getResearchList("LostNFound");
+			
+			int displayCol =lostList.minDisplayColumn + MathHelper.floor_double(lostCount / lostList.maxDisplayColumn);
+			int displayRow =lostList.minDisplayRow + (lostCount % lostList.maxDisplayColumn);
+			
+			ResearchItem LostResearchItem;
+			if(this.icon_item != null){
+				LostResearchItem = new ResearchItem(this.key, this.category, this.tags, displayCol , displayRow , this.complexity, this.icon_item );
+			}else{
+				LostResearchItem = new ResearchItem(this.key, this.category, this.tags, displayCol , displayRow + (lostCount % 10), this.complexity, this.icon_resource );
+			}
+			return LostResearchItem;
+		}
+		return this;
+	}
 
     public String getName()
     {
